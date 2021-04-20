@@ -1,4 +1,15 @@
 <?php
+
+require_once("koneksi.php");
+
+/* Memanggil Model */
+require_once("Model/AuthModel.php");
+require_once("Model/PraktikumModel.php");
+require_once("Model/AslabModel.php");
+require_once("Model/ModulModel.php");
+require_once("Model/PraktikanModel.phpl");
+require_once("Model/DaftarprakModel.php");
+
 //Routing dari URL ke Obyek Class PHP
 if (isset($_GET['page']) && isset($_GET['aksi'])) {
     $page = $_GET['page']; // Berisi nama page
