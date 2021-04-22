@@ -116,10 +116,8 @@ class PraktikanModel
         extract($modul);
         extract($nilai);
         require_once("View/praktikan/nilaiPraktikan.php");
-    }
-    
+    } 
 }
 
-$tes = new PraktikanModel ();
-var_export(tes->get(1));
-die();
+
+

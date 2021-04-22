@@ -75,5 +75,5 @@ class AslabModel
         extract($nilai);
         require_once("View/aslab/nilai.php");
     }
-
 }
+

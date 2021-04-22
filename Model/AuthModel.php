@@ -1,5 +1,4 @@
 <?php
-
 class AuthModel
 {
     /**
@@ -89,3 +88,4 @@ public function index()
         header("location:index.php?page=auth&aksi=view&pesan=Berhasil Logout!");
     }
 }
+
