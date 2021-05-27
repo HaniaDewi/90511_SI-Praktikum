@@ -13,16 +13,6 @@ class PraktikanModel
     }  
 
     /**
-     * Funtion ini untuk mengatur tampilan awal halaman praktikan
-     */
-    public function index(){
-        $id = $_SESSION['praktikan']['id'];
-        $data = $this->get($id);
-        extract($data);
-        require_once("View/praktikan/index.php");
-    }
-
-    /**
      * Funtion getPraktikum berfungsi untuk mengambil data praktikum yang aktif
      */
     public function getPraktikum(){
@@ -33,15 +23,6 @@ class PraktikanModel
              $hasil = $data;
             }
         return $hasil;
-    }
-
-    /**
-     * Funtion daftarPraktikum untuk mengatur tampilan halaman daftar praktikum 
-     */
-    public function daftarPraktikum(){
-        $data = $this->getPraktikum();
-        extract($data);
-        require_once("View/praktikan/daftarPraktikum.php");
     }
 
     /**
@@ -60,17 +41,6 @@ class PraktikanModel
            }
        return $hasil;
     }
-
-    /**
-     * Function praktikum untuk mengatur tampilan halam praktikum praktikan
-     */
-    public function praktikum(){
-        $idPraktikan = $_SESSION['praktikan']['id'];
-        $data = $this->getPendaftaranPraktikum($idPraktikan);
-        extract($data);
-        require_once("View/praktikan/praktikum.php");
-    }
-
     /**
      * Function getModul untuk mengambil data modul dari praktikum yang aktif
      */
@@ -104,20 +74,33 @@ class PraktikanModel
            }
        return $hasil;
     }
-
     /**
-     * Function nilaiPraktikan untuk mengatur halaman nilai praktikum yang dilakukan oleh praktikan
+     * function update untuk update data praktikan pada database
+     * @param string nama berisi nama praktikan
+     * @param string npm berisi npm praktikan
+     * @param string password berisi password
+     * @param string no_hp berisi nomor telepon
+     * @param integer id berisi id praktikan
      */
-    public function nilaiPraktikan(){
-        $idPraktikan = $_SESSION['praktikan']['id'];
-        $idPraktikum = $_GET['idPraktikum'];
-        $modul = $this->getModul();
-        $nilai = $this->getNilaiPraktikan($idPraktikan, $idPraktikum);
-        extract($modul);
-        extract($nilai);
-        require_once("View/praktikan/nilaiPraktikan.php");
-    } 
+    public function prosesUpdate($nama, $npm, $password, $no_hp, $id){
+        $sql = "UPDATE praktikan SET nama='$nama', npm='$npm', password='$password', nomor_hp='$no_hp' WHERE id=$id ";
+        $query = koneksi()->query($sql);
+        return $query;
+    }
+    /**
+     * function StorePraktikum untuk input data daftar praktikum ke database
+     * @param integer idPraktikan berisi id praktikan
+     * @param integer idPraktikum berisi id praktikum
+     */
+    public function prosesStorePraktikum($idPraktikan, $idPraktikum)
+    {
+        $sql = "INSERT INTO daftarprak(praktikan_id,praktikum_id,status) VALUES($idPraktikan,$idPraktikum,0)";
+        $query = koneksi()->query($sql);
+        return $query;
+    }
 }
-
+//$tes = new PraktikanModel();
+//var_export($tes->getNilaiPraktikan(2, 2));
+//die();
 
 

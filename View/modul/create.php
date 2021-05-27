@@ -33,7 +33,8 @@
                             <div class="col">
                                 <label for="">Praktikum : </label>
                                 <select name="praktikum" class="form-control" readonly>
-                                    <option value="bd">Basis Data</option>
+                                    <? foreach($data as $row) : ?>
+                                        <option value="<?= $row['id'] ?>"><?= $row['nama']; ?></option>
                                 </select>
                             </div>
                         </div>
@@ -50,5 +51,4 @@
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.css"></script>
 </body>
-
 </html>
