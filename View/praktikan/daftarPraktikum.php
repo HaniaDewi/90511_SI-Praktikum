@@ -24,8 +24,8 @@
                             <!-- Digant saat modul 3 -->
                             <label for="">Praktikum : </label>
                             <select name="praktikum" class="form-control">
-                            <?php foreach($data as $row):?>
-                                <option value="<?= $row['id'] ?>"><?= $row['nama'] ?></option>
+                            <?php foreach($data as $row): ?>
+                                <option value="<?= $row['id']?>"><?= $row['nama']?></option>
                             <?php endforeach; ?>
                             </select>
                         </div>

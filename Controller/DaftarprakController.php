@@ -1,16 +1,19 @@
 <?php
+
 class DaftarprakController
 {
     private $model;
+
     /**
-     * function construct berguna untuk menginisialisasi objek Daftarprak model
+     * Function ini adalah constructor yang berguna menginisialisasi Obyek DaftarPrakModel
      */
     public function __construct()
     {
-        $this->model = new DaftarprakModel();
+        $this->model = new DaftarPrakModel();
     }
+
     /**
-     * function index untuk mengatur tampilan awal daftarprak
+     * Function index berfungsi untuk mengatur tampilan awal halaman daftar
      */
     public function index()
     {
@@ -18,11 +21,11 @@ class DaftarprakController
         extract($data);
         require_once("View/daftarprak/index.php");
     }
-        /**
-    * function verif berfungsi untuk memverifikasi praktikan yang sudah mendaftar praktikum
-     */
 
-    public function verif()
+    /**
+     * Function verif berfungsi untuk memverifikasi praktikan yang sudah mendaftar praktikum 
+     */
+    public function Verif()
     {
         $id = $_GET['id'];
         $idAslab = $_SESSION['aslab']['id'];
@@ -32,18 +35,20 @@ class DaftarprakController
             header("location: index.php?page=daftarprak&aksi=view&pesan=Gagal Verif Praktikan");
         }
     }
+
     /**
-    * function Unverif digunakan untuk membatalkan verifikasi
-    */
+     * Function UnVerif berfungsi untuk membatalkan verifikasi 
+     */
     public function unVerif()
     {
         $id = $_GET['id'];
-        $idAslab = $_GET['idPraktikan'];
-        if($this->model->prosesUnVerif($id, $idPraktikan)){
-            header("location: index.php?page=daftarprak&aksi=view&pesan=Berhasil Verif Praktikan");
+        $idpraktikan = $_GET['idPraktikan'];
+        if($this->model->prosesUnVerif($id, $idpraktikan)){
+            header("location: index.php?page=daftarprak&aksi=view&pesan=Berhasil Un-Verif Praktikan");
         }else{
-            header("location: index.php?page=daftarprak&aksi=view&pesan=Gagal Verif Praktikan");
+            header("location: index.php?page=daftarprak&aksi=view&pesan=Gagal Un-Verif Praktikan");
         }
     }
 }
+
 ?>

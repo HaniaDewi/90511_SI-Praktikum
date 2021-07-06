@@ -1,97 +1,122 @@
 <?php
+
 class PraktikumController
 {
     private $model;
+
     /**
-     * function construct berguna untuk menginisialisasi objek PraktikumModel
+     * Function ini adalah konstruktor yang berguna menginisialisasi Obyek PraktikumModel
      */
     public function __construct()
     {
         $this->model = new PraktikumModel();
     }
+
     /**
-    * function index untuk mengatur tampilan awal
-    */
+     * Function index berfungsi untuk mengatur tampilan awal
+     */
     public function index()
     {
         $data = $this->model->get();
-
         extract($data);
         require_once("View/praktikum/index.php");
     }
+
     /**
-    * function create untuk mengatur tampilan tambah data 
-    */
+     * Function create berfungsi untuk mengatur tampilan tambah data
+     */
+
     public function create()
     {
         require_once("View/praktikum/create.php");
     }
+
     /**
-    * function store untuk memproses data untuk ditambahkan
-    * fungsi ini membutuhkan data nama, tahun dengan metode http request POST
-    */
+     * Function store berfungsi untuk memproses data untuk ditambahkan
+     * Fungsi ini membutuhkan data nama, npm, email dengan metode http request POST
+     */
+
     public function store()
     {
         $nama = $_POST['nama'];
         $tahun = $_POST['tahun'];
-        if ($this->model->prosesStore($nama, $tahun)) {
+        if($this->model->prosesStore($nama, $tahun))
+        {
             header("location:index.php?page=praktikum&aksi=view&pesan=Berhasil Menambah Data");
-        } else{
+        } else
+        {
             header("location:index.php?page=praktikum&aksi=create&pesan=Gagal Menambah Data");
         }
     }
+
     /**
-    * function ini untuk menampilkan halaman edit
-     * juga mengambil salah satu data dari database
-    * function ini membutuhkan data id dengan metode http request GET
-    */
+     * Function ini berfungsi untuk menampilkan halaman edit
+     * juga mengambil salah data dari database berdasarkan id
+     * funciton ini membutuhkan data id dengan metode http request GET
+     */
+
     public function edit()
     {
         $id = $_GET['id'];
-        $data = $this->modul->getById($id);
+        $data = $this->model->getById($id);
+
         extract($data);
         require_once("View/praktikum/edit.php");
     }
+
     /**
-    * fuction update untuk memproses data untuk di update
-    * fungsi ini membutuhkan data nama, tahun dengan metode http request POST
+     * Function update berfungsi untuk memproses data untuk di update
+     * Fungsi ini membutuhkan data nama, tahun dengan metode http request POST
      */
+
     public function update()
     {
         $id = $_POST['id'];
         $nama = $_POST['nama'];
         $tahun = $_POST['tahun'];
-        if ($this->model->storeUpdate($nama, $tahun, $id)) {
-            header("location:index.php?page=praktikum&aksi=view&pesan=Berhasil Mengubah Data");
-        } else{
-            header("location:index.php?page=praktikum&aksi=edit&pesan=Gagal Mengubah Data");
+
+        if($this->model->storeUpdate($nama, $tahun, $id))
+        {
+            header("location:index.php?page=praktikum&aksi=view&pesan=Berhasil Mengubah data");
+        } else
+        {
+            header("location:index.php?page=praktikum&aksi=edit&pesan=Gagal Mengubah data&id=$id");
         }
     }
+
     /**
-    * function aktifkan untuk memproses update salah satu field data
-    * fungsi ini membutuhkan data id dengan metode http request GET
-    */
+     * Function ini berfungsi untuk memproses update salah satu field data
+     * Function ini membutuhkan data id dengan metode http request GET
+     */
+
     public function aktifkan()
     {
-    $id = $_GET['id'];
-    if ($this->model->prosesAktifkan($id)) {
-        header("location:index.php?page=praktikum&aksi=view&pesan=Berhasil Men-Aktifkan Data");
-        } else{
-        header("location:index.php?page=praktikum&aksi=edit&pesan=Gagal Men-Aktifkan Data");
+        $id = $_GET['id'];
+        if($this->model->prosesAktifkan($id))
+        {
+            header("location:index.php?page=praktikum&aksi=view&pesan=Berhasil Meng-aktifkan data");
+        } else
+        {
+            header("location:index.php?page=praktikum&aksi=edit&pesan=Gagal Meng-aktifkan data&id=$id");
         }
     }
+
     /**
-    * function nonAktifkan untuk memproses update salah satu field data
-    * fungsi ini membutuhkan data id dengan metode http request GET
-    */
+     * Function ini berfungsi untuk memproses update salah satu field data
+     * Function ini membutuhkan data id dengan metode http request GET
+     */
+
     public function nonAktifkan()
-    { 
-    $id = $_GET['id'];
-    if ($this->model->prosesNonAktifkan($id)) {
-        header("location:index.php?page=praktikum&aksi=view&pesan=Berhasil non-Aktifkan Data");
-        } else{
-        header("location:index.php?page=praktikum&aksi=edit&pesan=Gagal non-Aktifkan Data");
+    {
+        $id = $_GET['id'];
+        if($this->model->prosesNonAktifkan($id))
+        {
+            header("location:index.php?page=praktikum&aksi=view&pesan=Berhasil Non-Aktifkan data");
+        } else
+        {
+            header("location:index.php?page=praktikum&aksi=edit&pesan=Gagal Non-Aktifkan data&id=$id");
         }
     }
 }
+
 ?>

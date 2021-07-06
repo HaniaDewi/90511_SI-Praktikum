@@ -1,106 +1,125 @@
 <?php
+
 class PraktikanModel
 {
     /**
-     * Function get untuk mengambil seluruh data praktikan
+     * Function get berfungsi untuk mengambil seluruh data praktikan
      * @param integer id berisi id praktikan
-     **/
+     */
     public function get($id)
     {
-        $sql = "SELECT * FROM praktikan WHERE id = $id";
+        $sql = "SELECT * from praktikan where id = $id";
         $query = koneksi()->query($sql);
         return $query->fetch_assoc();
-    }  
+    }
+
 
     /**
-     * Funtion getPraktikum berfungsi untuk mengambil data praktikum yang aktif
+     * Function getPraktikum berfungsi untuk mengambil seluruh data praktikum yang aktif
      */
-    public function getPraktikum(){
-        $sql = "SELECT * FROM praktikum WHERE status = 1";
+    public function getPraktikum()
+    {
+        $sql = "SELECT * from praktikum where status = 1";
         $query = koneksi()->query($sql);
-         $hasil = [];
-         while($data = $query->fetch_assoc()){
-             $hasil = $data;
-            }
+        $hasil = [];
+        while ($data = $query->fetch_assoc())
+        {
+            $hasil[] = $data;
+        }
         return $hasil;
     }
 
     /**
-     * Function getPendaftaranPraktikum untuk mengambil data pendaftaran praktikum yang dilakukan praktikan
-     * @param integer idPraktikan berisi id Praktikan
+     * Function getPendaftaranPraktikum berfungsi untuk mengambil data pendaftaran praktikum praktikan
+     * @param integer idPraktikan berisi idpraktikan
      */
     public function getPendaftaranPraktikum($idPraktikan)
     {
-        $sql = "SELECT daftarprak.id as idDaftar , praktikum.nama as namaPraktikum , praktikum.id as idPraktikum , daftarprak.status FROM daftarprak
-        JOIN praktikum on praktikum.id = daftarprak.praktikum_id
-        WHERE daftarprak.praktikan_id = $idPraktikan";
+        $sql = "SELECT daftarprak.id
+        as idDaftar, praktikum.nama
+        as namaPraktikum, praktikum.id
+        as idPraktikum,
+        daftarprak.status from daftarprak join praktikum on praktikum.id = daftarprak.praktikum_id
+        where daftarprak.praktikan_id = $idPraktikan";
+
         $query = koneksi()->query($sql);
         $hasil = [];
-        while($data = $query->fetch_assoc()){
-            $hasil = $data;
-           }
-       return $hasil;
+        while ($data = $query->fetch_assoc())
+        {
+            $hasil[] = $data;
+        }
+        return $hasil;
     }
+
+
     /**
-     * Function getModul untuk mengambil data modul dari praktikum yang aktif
+     * Function getModul berfungsi untuk mengambil data modul dari praktikan yang aktif
      */
-    public function getModul(){
-        $sql = "SELECT modul.id as idModul , modul.nama as namaModul FROM modul
-        JOIN praktikum on praktikum.id = modul.praktikum_id
-        WHERE praktikum.status = 1";
+    public function getModul($idPraktikum)
+    {
+        $sql = "SELECT modul.id as idModul, modul.nama as namaModul from modul join praktikum on praktikum.id
+        = modul.praktikum_id where modul.praktikum_id = $idPraktikum";
         $query = koneksi()->query($sql);
         $hasil = [];
-        while($data = $query->fetch_assoc()){
-            $hasil = $data;
-           }
-       return $hasil;
+        while($data = $query->fetch_assoc())
+        {
+            $hasil[] = $data;
+        }
+        return $hasil;
     }
 
     /**
-     * Function getNilaiPraktikan untuk mengambil data nilai praktikan dari setiap praktikum
+     * Function getNilaiPraktikan berfungsi untuk mengambil data nilai praktikan di tiap praktikum
      * @param integer idPraktikan berisi id praktikan
-     * @param integer idPraktikum berisi id praktikum
-    */
-    public function getNilaiPraktikan($idPraktikan, $idPraktikum){
-        $sql = "SELECT * FROM nilai
-        JOIN modul on modul.id = nilai.modul_id
-        WHERE praktikan_id = $idPraktikan
-        AND praktikum_id = $idPraktikum
-        ORDER BY modul.id";
+     */
+    public function getNilaiPraktikan($idPraktikan, $idPraktikum)
+    {
+        $sql = "SELECT * from nilai join modul on modul.id = nilai.modul_id
+        where praktikan_id = $idPraktikan
+        and praktikum_id = $idPraktikum
+        order by modul.id";
         $query = koneksi()->query($sql);
         $hasil = [];
-        while($data = $query->fetch_assoc()){
-            $hasil = $data;
-           }
-       return $hasil;
+        while($data = $query->fetch_assoc())
+        {
+            $hasil[] = $data;
+        }
+        return $hasil;
     }
+
+
     /**
-     * function update untuk update data praktikan pada database
-     * @param string nama berisi nama praktikan
-     * @param string npm berisi npm praktikan
-     * @param string password berisi password
-     * @param string no_hp berisi nomor telepon
-     * @param integer id berisi id praktikan
+     * Function update berfungsi untuk update data praktikan pada database
+     * @param String nama berisi nama praktikan
+     * @param String npm berisi npm praktikan
+     * @param String password berisi password
+     * @param String no_hp berisi nomor hp praktikan
+     * @param String id berisi id praktikan
      */
-    public function prosesUpdate($nama, $npm, $password, $no_hp, $id){
-        $sql = "UPDATE praktikan SET nama='$nama', npm='$npm', password='$password', nomor_hp='$no_hp' WHERE id=$id ";
+    public function prosesUpdate($nama, $npm, $password, $no_hp, $id)
+    {
+        $sql = "UPDATE praktikan SET nama = '$nama', npm = '$npm', password='$password', nomor_hp = '$no_hp' WHERE
+        id='$id'";
         $query = koneksi()->query($sql);
         return $query;
     }
+
+
     /**
-     * function StorePraktikum untuk input data daftar praktikum ke database
+     * Function StorePraktikum berfungsi untuk input data daftar praktikum ke database
      * @param integer idPraktikan berisi id praktikan
      * @param integer idPraktikum berisi id praktikum
      */
     public function prosesStorePraktikum($idPraktikan, $idPraktikum)
     {
-        $sql = "INSERT INTO daftarprak(praktikan_id,praktikum_id,status) VALUES($idPraktikan,$idPraktikum,0)";
+        $sql = "INSERT INTO daftarprak(praktikan_id, praktikum_id, status) VALUES($idPraktikan, $idPraktikum,0)";
         $query = koneksi()->query($sql);
         return $query;
     }
+
+    
 }
-//$tes = new PraktikanModel();
-//var_export($tes->getNilaiPraktikan(2, 2));
-//die();
-
-
+// $tes = new PraktikanModel();
+// var_export($tes->get(5));
+// die();
+?>

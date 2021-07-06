@@ -1,57 +1,71 @@
 <?php
+
 class AslabController
 {
     private $model;
+
     /**
-     * function construct berguna untuk menginisialisasi objek aslab model
+     * Function ini adalah constructor yang berguna menginisialisasi Obyek aslab Model
      */
     public function __construct()
     {
         $this->model = new AslabModel();
     }
+
     /**
-     * function index untuk mengatur tampilan awal
+     * Function index berfungsi untuk mengatur tampilan awal
      */
     public function index()
     {
         $idAslab = $_SESSION['aslab']['id'];
-        $data = $this->model->get ($idAslab);
+        $data = $this->model->get($idAslab);
         extract($data);
         require_once("View/aslab/index.php");
     }
+
     /**
-     * Function nilai untuk mengatur tampilan halaman data nilai praktikan
-     **/
-    public function nilai(){
+     * Function nilai berfungsi untuk mengatur tampilan halaman data nilai praktikan
+     */
+    public function nilai()
+    {
         $idPraktikan = $_GET['id'];
         $modul = $this->model->getModul();
         $nilai = $this->model->getNilaiPraktikan($idPraktikan);
         extract($modul);
         extract($nilai);
+
         require_once("View/aslab/nilai.php");
     }
+
     /**
-     * function createNilai untuk mengatur halaman input nilai
+     * Function createNilai berfungsi untuk mengatur ke halaman input nilai
      */
     public function createNilai()
     {
         $modul = $this->model->getModul();
         extract($modul);
-        require_once('View/aslab/createNilai.php');
+
+        require_once("View/aslab/createNilai.php");
     }
+
     /**
-     * function storeNilai untuk menyimpan data nilai sesuai dengan id praktikan dari form yang 
-     * telah diisi aslab pada halam create nilai
+     * Function storeNilai berfungsi untuk menyimpan data nilai sesuai id praktikan dari
+     * form yang telah diisi aslab pada halaman createNilai
      */
-    public function storeNilai(){
+    public function storeNilai()
+    {
         $idModul = $_POST['modul'];
         $idPraktikan = $_GET['id'];
         $nilai = $_POST['nilai'];
-        if($this->model->prosesStoreNilai($idModul,$idPraktikan,$nilai)){
-            header("location:index.php?page=aslab&aksi=nilai&pesan=Berhasil Tambah Data&id=$idPraktikan");
-        } else{
-            header("location:index.php?page=aslab&aksi=create&pesan=Gagal Tambah Data&id=$idPraktikan");
+
+        if($this->model->prosesStoreNilai($idModul, $idPraktikan, $nilai)){
+            header("location: index.php?page=aslab&aksi=nilai&pesan=Berhasil tambah Data&id=$idPraktikan");
+        }
+        else{
+            header("location: index.php?page=aslab&aksi=createNilai&pesan=Gagal tambah Data&id=$idPraktikan");
         }
     }
+
 }
+
 ?>

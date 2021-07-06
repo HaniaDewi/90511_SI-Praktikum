@@ -1,25 +1,31 @@
 <?php
+
 class PraktikanController
+
 {
     private $model;
+
     /**
-     * function construct berguna untuk menginisialisasi objek PraktikanModel
+     * Function ini adalah konstruktor yang berguna menginisialisasi Obyek PraktikanModel
      */
     public function __construct()
     {
-        $this->model = new PraktikanModel();
+        $this->model  = new PraktikanModel();
     }
+
     /**
-     * Function ini untuk mengatur tampilan awal halaman praktikan
+     * Function index berfungsi untuk mengatur tampilan awal halaman praktikan
      */
-    public function index(){
+    public function index()
+    {
         $id = $_SESSION['praktikan']['id'];
         $data = $this->model->get($id);
         extract($data);
         require_once("View/praktikan/index.php");
     }
+
     /**
-     * function edit untuk menampilkan form edit
+     * Function edit berfungsi untuk menampilkan form edit
      */
     public function edit()
     {
@@ -28,8 +34,9 @@ class PraktikanController
         extract($data);
         require_once("View/praktikan/edit.php");
     }
+
     /**
-     * function update untuk menyimpan hasil edit
+     * Function update berfungsi untuk menyimpan hasil edit
      */
     public function update()
     {
@@ -39,53 +46,61 @@ class PraktikanController
         $no_hp = $_POST['no_hp'];
         $password = $_POST['password'];
 
-        if ($this->model->prosesUpdate($nama, $npm, $password, $no_hp, $id)) {
-            header("location:index.php?page=praktikan&aksi=view&pesan=Berhasil Ubah Data");
-        } else {
-            header("location:index.php?page=praktikan&aksi=edit&pesan=Gagal Ubah Data");
+        if($this->model->prosesUpdate($nama, $npm, $password, $no_hp, $id)){
+            header("location: index.php?page=praktikan&aksi=view&pesan=Berhasil Ubah Data");
+        }else{
+            header("location: index.page?page=praktikan&aksi=edit&pesan=Gagal Ubah Data");
         }
     }
+
     /**
-     * Function praktikum untuk mengatur tampilan halam praktikum praktikan
+     * Function praktikum berfungsi untuk mengatur ke tampilan halaman praktikum praktikan
      */
-    public function praktikum(){
+    public function praktikum()
+    {
         $idPraktikan = $_SESSION['praktikan']['id'];
         $data = $this->model->getPendaftaranPraktikum($idPraktikan);
         extract($data);
         require_once("View/praktikan/praktikum.php");
     }
+
     /**
-     * Function daftarPraktikum untuk mengatur tampilan halaman daftar praktikum 
+     * Function daftarPraktikum berfungsi untuk mengatur tampilan halaman daftar praktikum
      */
-    public function daftarPraktikum(){
+    public function daftarPraktikum()
+    {
         $data = $this->model->getPraktikum();
         extract($data);
         require_once("View/praktikan/daftarPraktikum.php");
     }
+
     /**
-     * function storePraktikan untuk memproses data praktikum yang dipilih untuk ditambahkan
+     * Function storePraktikan berfungsi untuk memproses data praktikum yang dipilih untuk ditambahkan
      */
     public function storePraktikum()
     {
         $praktikum = $_POST['praktikum'];
         $idPraktikan = $_SESSION['praktikan']['id'];
-        if ($this->model->prosesStorePraktikum($idPraktikan, $idPraktikum)) {
-            header("location:index.php?page=praktikan&aksi=praktikum&pesan=Berhasil Daftar Praktikum");
-        } else {
-            header("location:index.php?page=praktikan&aksi=daftarPraktikum&pesan=Gagal Daftar Praktikum");
+        if($this->model->prosesStorePraktikum($idPraktikan, $praktikum)){
+            header("location: index.php?page=praktikan&aksi=praktikum&pesan=Berhasil Daftar Praktikum");
+        }else{
+            header("location: index.php?page=praktikan&aksi=daftarPraktikum&pesan=Gagal Daftar Praktikum");
         }
     }
+
     /**
-     * Function nilaiPraktikan untuk mengatur halaman nilai praktikum yang dilakukan oleh praktikan
+     * Function nilaiPraktikum berfungsi untuk mengatur halaman nilai praktikum praktikan
      */
-    public function nilaiPraktikan(){
+    public function nilaiPraktikan()
+    {
         $idPraktikan = $_SESSION['praktikan']['id'];
         $idPraktikum = $_GET['idPraktikum'];
-        $modul = $this->model->getModul();
+        $modul = $this->model->getModul($idPraktikum);
         $nilai = $this->model->getNilaiPraktikan($idPraktikan, $idPraktikum);
         extract($modul);
         extract($nilai);
         require_once("View/praktikan/nilaiPraktikan.php");
     }
 }
+
 ?>

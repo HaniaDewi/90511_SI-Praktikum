@@ -28,6 +28,7 @@
                     <div class="form-group">
                         <label for="">NPM Praktikan</label>
                         <input type="text" name="npm" class="form-control" value="<?=$data['npm']?>">
+                        <!-- 06.2099.12.92929 -->
                     </div>
                     <div class="form-group">
                         <label for="">Password Praktikan</label>
@@ -36,6 +37,7 @@
                     <div class="form-group">
                         <label for="">No.Telp Praktikan</label>
                         <input type="text" name="no_hp" class="form-control" value="<?=$data['nomor_hp']?>">
+                        <!-- 087632 -->
                     </div>
                     <button type="submit" class="btn btn-success btn-lg btn-block">Simpan</button>
                 </form>

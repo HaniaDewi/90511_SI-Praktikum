@@ -16,7 +16,8 @@
             <div class="card mt-5">
                 <div class=" card-header">
                     <h2>Praktikum</h2>
-                    <a href="index.php?page=praktikan&aksi=daftarPraktikum" class="btn btn-primary float-right">Daftar Praktikum</a>
+                    <a href="index.php?page=praktikan&aksi=daftarPraktikum" class="btn btn-primary float-right">
+                    Daftar Praktikum</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-bordered">
@@ -29,15 +30,17 @@
                         </thead>
                         <tbody>
                             <!-- Diganti Saat Modul 2 -->
-                            <? php $no = 1;
-                            foreach ($data as $row) ; ?>
+                            <?php $no = 1;
+                            foreach($data as $row):?>
                             <tr>
-                                <td><?= $no ?></td>
-                                <td><?= $row['namaPraktikum'] ?></td>
+                                <td><?= $no?></td>
+                                <td><?= $row['namaPraktikum']?></td>
                                 <td>
-                                    <a href="index.php?page=praktikan&aksi=nilaiPraktikan&idPraktikum=<?= $row['idPraktikum'] ?>" class="btn btn-info">Cek Nilai</a>
+                                <a href="index.php?page=praktikan&aksi=nilaiPraktikan&idPraktikum=<?=$row['idPraktikum']?>" class="btn btn-info">Cek Nilai</a>
                                 </td>
                             </tr>
+                            <?php $no++;
+                            endforeach;?>
                         </tbody>
                     </table>
                 </div>

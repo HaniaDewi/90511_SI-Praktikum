@@ -1,74 +1,87 @@
 <?php
+
 class ModulController
 {
     private $model;
+
     /**
-     * function construct berguna untuk menginisialisasi objek ModulModel
+     * Function ini adalah konstruktor yang berguna menginisialisasi Obyek ModulModel
      */
     public function __construct()
     {
         $this->model = new ModulModel();
     }
+
     /**
-     * function index untuk mengatur tampilan awal halaman
-    */
+     * Function index berfungsi untuk mengatur tampilan awal
+     */
     public function index()
     {
-        $data =$this->model->get();
+        $data = $this->model->get();
         extract($data);
         require_once("View/modul/index.php");
     }
+
     /**
-     * function create untuk  mengatur  ke halaman create modul
+     * Function create berfungsi untuk mengatur ke halaman create modul
      */
+
     public function create()
     {
         $data = $this->model->getPraktikum();
-
         extract($data);
         require_once("View/modul/create.php");
     }
-        /**
-     * function store untuk menyimpan data modul yang telah diinputkan oleh aslab
+
+    /**
+     * Function store berfungsi untuk menyimpan data modul yang telah di inputan oleh aslab
      */
+
     public function store()
     {
         $modul = $_POST['modul'];
         $praktikum = $_POST['praktikum'];
         $getLastData = $this->model->getLastData();
 
-        if ($getLasData == null) {
-            for ($i = 1; $i <= $modul; $i++) {
-                $nama = 'Modul ' . $i;
-                $post = $this->model->prosesStore($nama,$praktikum);
+        if($getLastData == null)
+        {
+            for($i = 1; $i <=$modul; $i++){
+                $nama = 'Modul ' . $i;//Modul 1
+                $post = $this->model->prosesStore($nama, $praktikum);
             }
-        } else {
+        } else
+        {
             $modulLast = explode(" ", $getLastData['nama']);
-            for ($i = 1; $i <= $modul; $i++) {
-                $a = $modulLast['1'] += 1;
-                $nama = 'Modul ' . $a;
-                $post = $this->model->prosesStore($nama,$praktikum);
+
+            for($i = 1; $i<=$modul; $i++){
+                $a = $modulLast['1']+=1;
+                $nama = 'Modul ' . $a;//Modul 1
+                $post = $this->model->prosesStore($nama, $praktikum);
             }
         }
 
-        if ($post) {
-            header("location:index.php?page=modul&aks=view&pesan=Berhasil Menambah Data");
-        }
-        else{
-            header("location:index.php?page=modul&aks=create&pesan=Gagal Menambah Data");
+        if($post)
+        {
+            header("location: index.php?page=modul&aksi=view&pesan=Berhasil Menambah Data");
+        } else
+        {
+            header("location: index.php?page=modul&aksi=create&pesan=Gagal Menambah Data");
         }
     }
+
     /**
-     * function delete untuk menghapus modul
+     * Function delete berfungsi untuk menghapus modul
      */
+
     public function delete()
     {
         $id = $_GET['id'];
-        if ($this->model->prosesDelete($id)) {
-            header("location:index.php?page=modul&aks=view&pesan=Berhasil Delete Data");
-        } else {
-            header("location:index.php?page=modul&aks=view&pesan=Gagal Delete Data");
+        if($this->model->prosesDelete($id)){
+            header("location: index.php?page=modul&aksi=view&pesan=Berhasil Delete Data");
+        } else{
+            header("location: index.php?page=modul&aksi=view&pesan=Gagal Delete Data");
         }
     }
 }
+
 ?>
